@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Image from "next/image";
+import mainLogo from "../../src/assets/dashboardimgs/mainLogo.svg"
 export default function ResponsiveSidebar() {
   // This needs to be a client component since we're using state
 
@@ -93,38 +95,15 @@ export default function ResponsiveSidebar() {
         } md:sticky md:z-0`}
       > */}
       <div className="p-4 flex items-center">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          className="text-blue-500"
-        >
-          <path
-            d="M12 2L2 7L12 12L22 7L12 2Z"
-            fill="currentColor"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 17L12 22L22 17"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M2 12L12 17L22 12"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <h1 className="ml-2 text-lg font-medium">Mytech</h1>
+      <Image
+          className="dark:invert"
+          src={mainLogo}
+          alt="logo"
+          width="auto"
+          height="auto"
+          priority
+        />
+        <h1 className="ml-2 text-lg font-medium text-[#1D1F2C] ">Mytech</h1>
 
         {/* Close button - visible only on mobile */}
         <button
