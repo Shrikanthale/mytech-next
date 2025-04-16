@@ -96,7 +96,7 @@ export default function ResponsiveSidebar() {
       > */}
       <div className="p-4 flex items-center">
       <Image
-          className="dark:invert"
+          // className="dark:invert"
           src={mainLogo}
           alt="logo"
           width="auto"
