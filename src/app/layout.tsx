@@ -28,11 +28,11 @@ export default function RootLayout({
 }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
-
+  
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen bg-gray-50`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen bg-gray-50 overflow-x-hidden`}
       >
         {/* Mobile Header with Hamburger Menu */}
         <header className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 z-30">
@@ -42,12 +42,11 @@ export default function RootLayout({
             </svg>
           </button>
           <div className="flex items-center">
-            {/* You might want to adjust the logo size for mobile */}
             <ResponsiveSidebar isMobileHeader={true} onClose={toggleSidebar} />
           </div>
         </header>
-
-        {/* Sidebar Content (conditionally rendered for mobile) */}
+        
+        {/* Sidebar Content */}
         <aside
           className={`fixed top-0 left-0 h-full w-60 bg-white border-r border-gray-200 shadow-sm z-40 transition-transform duration-300 ease-in-out md:translate-x-0 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
@@ -55,7 +54,7 @@ export default function RootLayout({
         >
           <ResponsiveSidebar onClose={toggleSidebar} />
         </aside>
-
+        
         {/* Backdrop Overlay for Mobile */}
         {sidebarOpen && (
           <div
@@ -63,10 +62,10 @@ export default function RootLayout({
             onClick={toggleSidebar}
           />
         )}
-
+        
         {/* Main Content Area */}
-        <main className={`md:ml-60 pt-16 md:pt-0 min-h-screen transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-0' : ''}`}>
-          <div className="h-full overflow-auto">
+        <main className={`md:ml-60 pt-16 md:pt-0 min-h-screen transition-all duration-300 ease-in-out w-full md:w-[calc(100%-15rem)] overflow-y-auto overflow-x-hidden ${sidebarOpen ? 'ml-0' : ''}`}>
+          <div className="h-full w-full">
             {children}
           </div>
         </main>
