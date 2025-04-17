@@ -1,8 +1,10 @@
+"use client";
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
 import ResponsiveSidebar from "@/components/resSidebar";
+import { useState } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,29 +16,57 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Mytech Dashboard",
-  description: "Dashboard application by Mytech",
-};
+// export const metadata: Metadata = {
+//   title: "Mytech Dashboard",
+//   description: "Dashboard application by Mytech",
+// };
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen bg-gray-50`}
       >
-        {/* Fixed Sidebar */}
-        <aside className="fixed top-0 left-0 h-full w-60 bg-white border-r border-gray-200 shadow-sm z-20">
-        <ResponsiveSidebar/> 
+        {/* Mobile Header with Hamburger Menu */}
+        <header className="md:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 z-30">
+          <button onClick={toggleSidebar} className="p-2 focus:outline-none cursor-pointer" aria-label="Toggle menu">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="black" viewBox="0 0 24 24" stroke="black">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          </button>
+          <div className="flex items-center">
+            {/* You might want to adjust the logo size for mobile */}
+            <ResponsiveSidebar isMobileHeader={true} onClose={toggleSidebar} />
+          </div>
+        </header>
+
+        {/* Sidebar Content (conditionally rendered for mobile) */}
+        <aside
+          className={`fixed top-0 left-0 h-full w-60 bg-white border-r border-gray-200 shadow-sm z-40 transition-transform duration-300 ease-in-out md:translate-x-0 ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <ResponsiveSidebar onClose={toggleSidebar} />
         </aside>
 
+        {/* Backdrop Overlay for Mobile */}
+        {sidebarOpen && (
+          <div
+            className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+            onClick={toggleSidebar}
+          />
+        )}
+
         {/* Main Content Area */}
-        <main className="md:ml-60 pt-16 md:pt-0 min-h-screen">
-          <div className="h-full p-4 overflow-auto">
+        <main className={`md:ml-60 pt-16 md:pt-0 min-h-screen transition-all duration-300 ease-in-out ${sidebarOpen ? 'ml-0' : ''}`}>
+          <div className="h-full overflow-auto">
             {children}
           </div>
         </main>
@@ -44,5 +74,3 @@ export default function RootLayout({
     </html>
   );
 }
-
-// Client component for the responsive sidebar (you might still want this for smaller screens)
