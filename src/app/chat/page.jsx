@@ -201,7 +201,7 @@ export default function ProductManagementUI() {
           </div>
         </div>
         {/* Search and Filters - Desktop */}
-        <div className="hidden md:flex justify-between mb-4 gap-2">
+        {/* <div className="hidden md:flex justify-between mb-4 gap-2">
           <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
             {tabs.map((tab) => {
               const isActive = tab === activeTab;
@@ -244,7 +244,61 @@ export default function ProductManagementUI() {
               <span className="text-sm">Edit Column</span>
             </button>
           </div>
+        </div> */}
+           <div className="w-full">
+      <div className="hidden md:flex justify-between mb-4 gap-2">
+        {/* Tabs section */}
+        <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
+          {tabs.map((tab) => {
+            const isActive = tab === activeTab;
+            return (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? "bg-[#EAF8FF] text-[#2086BF]"
+                    : "text-[#667085] hover:bg-gray-100"
+                }`}
+              >
+                {tab}
+              </button>
+            );
+          })}
         </div>
+        
+        {/* Search and filters section */}
+        <div className="flex space-x-2">
+          {/* Search input */}
+          <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
+            <Search className="text-gray-400 w-4 h-4 mr-1.5" />
+            <input
+              type="text"
+              placeholder="Search product..."
+              className="text-sm text-gray-500 outline-none bg-transparent w-32"
+            />
+          </div>
+          
+          {/* Date selector */}
+          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+            <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
+            <span className="text-sm">Select Date</span>
+          </button>
+          
+          {/* Filters */}
+          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
+            <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
+            <span className="text-sm">Filters</span>
+          </button>
+          
+          {/* Edit column */}
+          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+            <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
+            <span className="text-sm">Edit Column</span>
+          </button>
+        </div>
+      </div>
+    </div>
         <div className="bg-white rounded-lg shadow mb-6">
           {/* Mobile Tab Menu */}
           <div className="md:hidden border-b">
@@ -290,7 +344,7 @@ export default function ProductManagementUI() {
             </button>
           </div>
 
-          <div className="p-0 md:p-0">
+          <div className="p-2 md:p-0 sm:p-2">
             {/* Search and Filters - Mobile */}
             <div className="md:hidden mb-4">
               <div className="relative mb-3">
