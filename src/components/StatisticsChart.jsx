@@ -7,7 +7,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 
@@ -35,11 +34,11 @@ const StatisticsChart = () => {
         <div className="bg-gray-900 rounded-lg p-3 shadow-lg text-white">
           <p className="text-sm mb-1 flex items-center">
             <span className="inline-block w-2 h-2 rounded-full bg-blue-500 mr-2"></span>
-            Revenue: {payload[0].value}
+            Revenue: ${payload[0].value}
           </p>
           <p className="text-sm flex items-center">
             <span className="inline-block w-2 h-2 rounded-full bg-orange-500 mr-2"></span>
-            Sales: {payload[1].value}
+            Sales: ${payload[1].value}
           </p>
         </div>
       );
@@ -48,7 +47,7 @@ const StatisticsChart = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm">
+    <div className="bg-white p-6 rounded-lg shadow-sm w-full max-w-4xl mx-auto">
       <div className="mb-4">
         <h2 className="text-lg font-medium text-gray-700">Statistic</h2>
         <p className="text-sm text-gray-500">Revenue and Sales</p>
@@ -67,11 +66,12 @@ const StatisticsChart = () => {
         </div>
       </div>
 
-      <div className="h-64">
+      {/* Fixed height container */}
+      <div className="w-full h-64 md:h-72" style={{ minHeight: "250px" }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
-            margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
+            margin={{ top: 10, right: 30, left: 10, bottom: 10 }}
             onMouseMove={(e) => {
               if (e && e.activePayload) {
                 setTooltipData(e.activePayload);
@@ -94,6 +94,7 @@ const StatisticsChart = () => {
               axisLine={false}
               tickLine={false}
               tick={{ fill: "#9ca3af", fontSize: 12 }}
+              padding={{ left: 10, right: 10 }}
             />
             <YAxis
               axisLine={false}
@@ -102,6 +103,7 @@ const StatisticsChart = () => {
               domain={[200, 700]}
               ticks={[0, 250, 400, 500, 600, 700]}
               tickFormatter={(value) => (value === 0 ? "0" : `$${value}`)}
+              width={50}
             />
             <Tooltip content={<CustomTooltip />} />
             <Line
@@ -116,6 +118,7 @@ const StatisticsChart = () => {
                 strokeWidth: 2,
                 fill: "white",
               }}
+              isAnimationActive={false}
             />
             <Line
               type="monotone"
@@ -129,26 +132,25 @@ const StatisticsChart = () => {
                 strokeWidth: 2,
                 fill: "white",
               }}
+              isAnimationActive={false}
             />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
+      {/* Static tooltip for specific month highlight (optional) */}
       {tooltipData && (
-        <div
-          className="absolute hidden md:block"
-          style={{ top: "40%", left: "50%" }}
-        >
+        <div className="hidden md:block absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 pointer-events-none z-10">
           <div className="bg-gray-900 text-white p-3 rounded-lg shadow-lg">
-            <p className="text-xs mb-1">{tooltipData[0].payload.month}</p>
+            <p className="text-xs mb-1">{tooltipData[0]?.payload?.month}</p>
             <div className="flex items-center gap-4">
               <p className="flex items-center">
                 <span className="w-2 h-2 bg-blue-500 rounded-full mr-1"></span>
-                <span>Revenue: ${tooltipData[0].value}</span>
+                <span>Revenue: ${tooltipData[0]?.value}</span>
               </p>
               <p className="flex items-center">
                 <span className="w-2 h-2 bg-orange-500 rounded-full mr-1"></span>
-                <span>Sales: ${tooltipData[1].value}</span>
+                <span>Sales: ${tooltipData[1]?.value}</span>
               </p>
             </div>
           </div>

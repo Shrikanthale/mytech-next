@@ -6,8 +6,9 @@ export default function Home() {
   return (
     <main className="min-h-screen  items-center justify-center bg-gray-100 p-5">
       <ProjectStatsDashboard />
-      <div className="flex gap-10 mx-auto my-5">
-        <RevenueTargetCard /> <StatisticsChart />
+      <div className="flex flex-col md:flex-row gap-10 mx-auto my-5">
+        <RevenueTargetCard />
+        <StatisticsChart />
       </div>
     </main>
   );
