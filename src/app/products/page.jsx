@@ -15,11 +15,13 @@ import {
   LayoutGrid,
   SlidersHorizontal,
 } from "lucide-react";
-import { products } from "../../datastore/Products";
-import { useRouter } from "next/navigation";
 import Image from "next/image";
-import arrowheader from "../../assets/productimg/arrowheader.svg"
+import { useRouter } from "next/navigation";
+import { products } from "../../datastore/Products";
 import eyeball from "../../assets/productimg/eyeball.svg"
+import plusicon from "../../assets/productimg/plusicon.svg"
+import exporticon from "../../assets/productimg/exporticon.svg"
+import arrowheader from "../../assets/productimg/arrowheader.svg"
 export default function Page() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
@@ -213,79 +215,78 @@ export default function Page() {
               Product
             </h1>
             <div className="flex items-center justify-center text-xs md:text-sm mt-1 text-gray-500">
-              <span style={{color:"#2086BF" , fontWeight:500}} >Dashboard</span>
+              <span style={{ color: "#2086BF", fontWeight: 500 }} >Dashboard</span>
               <span className="mx-2"> <Image src={arrowheader} alt="img" width={"auto"} height={"auto"} /> </span>
               <span className="text-gray-800">Product List</span>
             </div>
           </div>
           <div className="flex items-center">
-            <div className="flex items-center">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white mr-2">
-                JP
-              </div>
-              <div className="hidden sm:block">
-                <div className="text-sm font-medium">Jeni Point</div>
-                <div className="text-xs text-gray-500">Manager</div>
-              </div>
+            <div className="flex gap-4">
+              <button className="flex items-center gap-2 py-3 px-4 rounded-lg bg-blue-50 text-[#2086BF] hover:bg-blue-100 transition-colors cursor-pointer">
+                <Image src={exporticon} alt="" width={"auto"} height={"auto"} />
+                <span className="font-medium">Export</span>
+              </button>
+
+              <button className="flex items-center gap-2 py-3 px-4 rounded-lg bg-[#2086BF] text-white hover:bg-blue-600 transition-colors cursor-pointer">
+                <Image src={plusicon} alt="" width={"auto"} height={"auto"} />
+                <span className="font-medium">Add Product</span>
+              </button>
             </div>
           </div>
         </div>
         <div className="w-full">
-  <div className="hidden md:flex flex-col lg:flex-row justify-between items-center mb-4 gap-3">
-    {/* Tabs section - centered on md screens, left aligned on lg screens */}
-    <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm mx-auto lg:mx-0">
-      {tabs.map((tab) => {
-        const isActive = tab === selectedTab;
-        return (
-          <button
-            key={tab}
-            onClick={() => setSelectedTab(tab)}
-            className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
-              isActive
-                ? "bg-[#EAF8FF] text-[#2086BF]"
-                : "text-[#667085] hover:bg-gray-100"
-            }`}
-          >
-            {tab}
-          </button>
-        );
-      })}
-    </div>
+          <div className="hidden md:flex flex-col lg:flex-row justify-between items-center mb-4 gap-3">
+            {/* Tabs section - centered on md screens, left aligned on lg screens */}
+            <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm mx-auto lg:mx-0">
+              {tabs.map((tab) => {
+                const isActive = tab === selectedTab;
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => setSelectedTab(tab)}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${isActive
+                      ? "bg-[#EAF8FF] text-[#2086BF]"
+                      : "text-[#667085] hover:bg-gray-100"
+                      }`}
+                  >
+                    {tab}
+                  </button>
+                );
+              })}
+            </div>
 
-    {/* Search and filters section - centered on md screens, right aligned on lg screens */}
-    <div className="flex flex-wrap justify-center gap-2 mx-auto lg:mx-0">
-      {/* Search input */}
-      <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
-        <Search className="text-gray-400 w-4 h-4 mr-1.5" />
-        <input
-          type="text"
-          placeholder="Search product..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="text-sm text-gray-500 outline-none bg-transparent w-32"
-        />
-      </div>
+            <div className="flex flex-wrap justify-center gap-2 mx-auto lg:mx-0">
+              <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
+                <Search className="text-gray-400 w-4 h-4 mr-1.5" />
+                <input
+                  type="text"
+                  placeholder="Search product..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="text-sm text-gray-500 outline-none bg-transparent w-32"
+                />
+              </div>
 
-      {/* Date selector */}
-      <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
-        <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
-        <span className="text-sm">Select Date</span>
-      </button>
+              {/* Date selector */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+                <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Select Date</span>
+              </button>
 
-      {/* Filters */}
-      <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
-        <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
-        <span className="text-sm">Filters</span>
-      </button>
+              {/* Filters */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
+                <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Filters</span>
+              </button>
 
-      {/* Edit column */}
-      <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
-        <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
-        <span className="text-sm">Edit Column</span>
-      </button>
-    </div>
-  </div>
-</div>
+              {/* Edit column */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+                <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Edit Column</span>
+              </button>
+            </div>
+          </div>
+        </div>
         <div className="bg-white rounded-lg shadow mb-6">
           {/* Mobile Tab Menu */}
           <div className="md:hidden border-b">
@@ -305,8 +306,8 @@ export default function Page() {
                   <button
                     key={tab}
                     className={`block w-full text-left px-4 py-2 text-sm rounded-md mb-1 ${selectedTab === tab
-                        ? "text-blue-600 bg-blue-50 font-medium"
-                        : "text-gray-600 hover:bg-gray-100"
+                      ? "text-blue-600 bg-blue-50 font-medium"
+                      : "text-gray-600 hover:bg-gray-100"
                       }`}
                     onClick={() => {
                       setSelectedTab(tab);
@@ -414,8 +415,8 @@ export default function Page() {
                       <tr
                         key={product.id}
                         className={`hover:bg-gray-50 ${selectedProducts.includes(product.id)
-                            ? "bg-gray-100"
-                            : ""
+                          ? "bg-gray-100"
+                          : ""
                           }`}
                       >
                         <td className="px-4 py-3 whitespace-nowrap">
@@ -454,12 +455,12 @@ export default function Page() {
                         <td className="px-4 py-3 whitespace-nowrap">
                           <span
                             className={`text-xs px-2 py-1 rounded-sm ${product.status === "Published"
-                                ? "bg-green-100 text-[#1A9882] font-medium"
-                                : product.status === "Low Stock"
-                                  ? "bg-[#FFF0EA] text-[#F86624] font-medium"
-                                  : product.status === "Out of Stock"
-                                    ? "bg-red-100 text-red-800"
-                                    : "bg-[#F0F1F3] text-[#667085]"
+                              ? "bg-green-100 text-[#1A9882] font-medium"
+                              : product.status === "Low Stock"
+                                ? "bg-[#FFF0EA] text-[#F86624] font-medium"
+                                : product.status === "Out of Stock"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-[#F0F1F3] text-[#667085]"
                               }`}
                           >
                             {product.status}
@@ -522,12 +523,12 @@ export default function Page() {
                       </div>
                       <span
                         className={`text-xs px-2 py-1 rounded-full ${product.status === "Published"
-                            ? "bg-green-100 text-[#1A9882] font-medium"
-                            : product.status === "Low Stock"
-                              ? "bg-[#FFF0EA] text-[#F86624] font-medium"
-                              : product.status === "Out of Stock"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-[#F0F1F3] text-[#667085]"
+                          ? "bg-green-100 text-[#1A9882] font-medium"
+                          : product.status === "Low Stock"
+                            ? "bg-[#FFF0EA] text-[#F86624] font-medium"
+                            : product.status === "Out of Stock"
+                              ? "bg-red-100 text-red-800"
+                              : "bg-[#F0F1F3] text-[#667085]"
                           }`}
                       >
                         {product.status}
@@ -597,8 +598,8 @@ export default function Page() {
                     onClick={() => changePage(currentPage - 1)}
                     disabled={currentPage === 1}
                     className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${currentPage === 1
-                        ? "bg-blue-50 text-blue-300 cursor-not-allowed"
-                        : "bg-blue-50 text-blue-500 hover:bg-blue-100"
+                      ? "bg-blue-50 text-blue-300 cursor-not-allowed"
+                      : "bg-blue-50 text-blue-500 hover:bg-blue-100"
                       }`}
                     aria-label="Previous page"
                   >
@@ -617,8 +618,8 @@ export default function Page() {
                         key={number}
                         onClick={() => changePage(number)}
                         className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg font-medium cursor-pointer ${currentPage === number
-                            ? "bg-blue-500 text-white"
-                            : "bg-blue-50 text-blue-500 hover:bg-blue-100"
+                          ? "bg-blue-500 text-white"
+                          : "bg-blue-50 text-blue-500 hover:bg-blue-100"
                           }`}
                       >
                         {number}
@@ -629,8 +630,8 @@ export default function Page() {
                     onClick={() => changePage(currentPage + 1)}
                     disabled={currentPage === totalPages}
                     className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${currentPage === totalPages
-                        ? "bg-blue-50 text-blue-300 cursor-not-allowed"
-                        : "bg-blue-50 text-blue-500 hover:bg-blue-100"
+                      ? "bg-blue-50 text-blue-300 cursor-not-allowed"
+                      : "bg-blue-50 text-blue-500 hover:bg-blue-100"
                       }`}
                     aria-label="Next page"
                   >
