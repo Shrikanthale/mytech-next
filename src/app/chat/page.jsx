@@ -11,6 +11,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Menu,
+  Calendar,
+  LayoutGrid,
+  SlidersHorizontal
 } from "lucide-react";
 
 export default function ProductManagementUI() {
@@ -197,7 +200,51 @@ export default function ProductManagementUI() {
             </div>
           </div>
         </div>
+        {/* Search and Filters - Desktop */}
+        <div className="hidden md:flex justify-between mb-4 gap-2">
+          <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
+            {tabs.map((tab) => {
+              const isActive = tab === activeTab;
+              return (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${isActive
+                    ? "bg-[#EAF8FF] text-[#2086BF]"
+                    : "text-[#667085] hover:bg-gray-100"
+                    }`}
+                >
+                  {tab}
+                </button>
+              );
+            })}
+          </div>
+          <div className="flex space-x-2">
+            <div className="flex items-center rounded-md border border-gray-300 px-3 py-2">
+              <Search className="text-gray-400 w-4 h-4 mr-2" />
+              <input
+                type="text"
+                placeholder="Search product..."
+                className="text-sm text-gray-500 outline-none bg-transparent w-36"
+              />
+            </div>
 
+            <button className="flex items-center rounded-md border border-gray-300 px-3 py-2 text-gray-500">
+              <Calendar className="text-gray-400 w-4 h-4 mr-2" />
+              <span className="text-sm">Select Date</span>
+            </button>
+
+            <button className="flex items-center rounded-md border border-gray-300 px-3 py-2 text-gray-500 cursor-pointer">
+              <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-2" />
+              <span className="text-sm">Filters</span>
+            </button>
+
+            <button className="flex items-center rounded-md border border-gray-300 px-3 py-2 text-gray-500">
+              <LayoutGrid className="text-gray-400 w-4 h-4 mr-2" />
+              <span className="text-sm">Edit Column</span>
+            </button>
+          </div>
+        </div>
         <div className="bg-white rounded-lg shadow mb-6">
           {/* Mobile Tab Menu */}
           <div className="md:hidden border-b">
@@ -216,11 +263,10 @@ export default function ProductManagementUI() {
                 {tabs.map((tab) => (
                   <button
                     key={tab}
-                    className={`block w-full text-left px-4 py-2 text-sm rounded-md mb-1 ${
-                      selectedTab === tab
-                        ? "text-blue-600 bg-blue-50 font-medium"
-                        : "text-gray-600 hover:bg-gray-100"
-                    }`}
+                    className={`block w-full text-left px-4 py-2 text-sm rounded-md mb-1 ${selectedTab === tab
+                      ? "text-blue-600 bg-blue-50 font-medium"
+                      : "text-gray-600 hover:bg-gray-100"
+                      }`}
                     onClick={() => {
                       setSelectedTab(tab);
                       setMobileMenuOpen(false);
@@ -244,44 +290,7 @@ export default function ProductManagementUI() {
             </button>
           </div>
 
-          <div className="p-4 md:p-5">
-            {/* Search and Filters - Desktop */}
-            <div className="hidden md:flex justify-between mb-4">
-              <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
-                {tabs.map((tab) => {
-                  const isActive = tab === activeTab;
-                  return (
-                    <button
-                      key={tab}
-                      onClick={() => setActiveTab(tab)}
-                      className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
-                        isActive
-                          ? "bg-[#EAF8FF] text-[#2086BF]"
-                          : "text-[#667085] hover:bg-gray-100"
-                      }`}
-                    >
-                      {tab}
-                    </button>
-                  );
-                })}
-              </div>
-              <div className="flex space-x-2">
-                <div className="relative">
-                  <select className="appearance-none pl-4 pr-8 py-2 border rounded-md text-sm w-32">
-                    <option>Select Date</option>
-                  </select>
-                </div>
-                <button className="flex items-center px-4 py-2 text-sm border rounded-md">
-                  <Filter size={16} className="mr-2" />
-                  Filters
-                </button>
-                <button className="flex items-center px-4 py-2 text-sm border rounded-md">
-                  <Edit2 size={16} className="mr-2" />
-                  Edit Column
-                </button>
-              </div>
-            </div>
-
+          <div className="p-0 md:p-0">
             {/* Search and Filters - Mobile */}
             <div className="md:hidden mb-4">
               <div className="relative mb-3">
@@ -332,7 +341,7 @@ export default function ProductManagementUI() {
             <div className="hidden md:block overflow-x-auto">
               <table className="min-w-full">
                 <thead>
-                  <tr className="bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <tr className="bg-white-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider py-2">
                     <th className="px-4 py-3 w-12">
                       <input
                         type="checkbox"
@@ -354,12 +363,10 @@ export default function ProductManagementUI() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {products.map((product) => (
                     <tr
-                    key={product.id}
-                    className={`hover:bg-gray-50 ${
-                      selectedProducts.includes(product.id) ? "bg-gray-100" : ""
-                    }`}
-                  >
-                  
+                      key={product.id}
+                      className={`hover:bg-gray-50 ${selectedProducts.includes(product.id) ? "bg-gray-100" : ""
+                        }`}
+                    >
                       <td className="px-4 py-3 whitespace-nowrap">
                         <input
                           type="checkbox"
@@ -394,19 +401,18 @@ export default function ProductManagementUI() {
                         {product.price}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
-                      <span
-                      className={`text-xs px-2 py-1 rounded-sm ${
-                        product.status === "Published"
-                          ? "bg-green-100 text-green-800"
-                          : product.status === "Low Stock"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : product.status === "Out of Stock"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {product.status}
-                    </span>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-sm ${product.status === "Published"
+                            ? "bg-green-100 text-green-800"
+                            : product.status === "Low Stock"
+                              ? "bg-yellow-100 text-yellow-800"
+                              : product.status === "Out of Stock"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-gray-100 text-gray-800"
+                            }`}
+                        >
+                          {product.status}
+                        </span>
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
                         {product.added}
@@ -450,15 +456,14 @@ export default function ProductManagementUI() {
                       </span>
                     </div>
                     <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        product.status === "Published"
-                          ? "bg-green-100 text-green-800"
-                          : product.status === "Low Stock"
+                      className={`text-xs px-2 py-1 rounded-full ${product.status === "Published"
+                        ? "bg-green-100 text-green-800"
+                        : product.status === "Low Stock"
                           ? "bg-yellow-100 text-yellow-800"
                           : product.status === "Out of Stock"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
+                            ? "bg-red-100 text-red-800"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
                     >
                       {product.status}
                     </span>
@@ -509,7 +514,7 @@ export default function ProductManagementUI() {
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between mt-4 text-sm">
+            <div className="flex items-center justify-between mt-4 text-sm p-3">
               <div className="text-gray-500 text-xs md:text-sm">
                 Showing 1-10 from 100
               </div>
