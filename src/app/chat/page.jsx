@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   Filter,
@@ -21,9 +21,12 @@ export default function ProductManagementUI() {
   const [selectedProducts, setSelectedProducts] = useState([302010, 302011]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-
   const tabs = ["All Product", "Published", "Low Stock", "Draft"];
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+  const totalItems = 100; // Example: total number of items in your data
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
   const products = [
     {
       id: 302010,
@@ -174,6 +177,77 @@ export default function ProductManagementUI() {
     setShowMobileFilters(!showMobileFilters);
   };
 
+  // Track window size for responsive behavior
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Function to change the page
+  const changePage = (pageNumber) => {
+    if (pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  // Get page numbers to display based on screen size
+  const getPageNumbers = () => {
+    const pageNumbers = [];
+
+    // For extra small screens (mobile), show minimal pagination
+    if (windowWidth < 480) {
+      if (totalPages <= 3) {
+        // If only few pages, show all
+        for (let i = 1; i <= totalPages; i++) {
+          pageNumbers.push(i);
+        }
+      } else {
+        // Show current page with prev/next only
+        return [currentPage];
+      }
+    }
+    // For small screens
+    else if (windowWidth < 640) {
+      if (totalPages <= 5) {
+        // If only few pages, show all
+        for (let i = 1; i <= totalPages; i++) {
+          pageNumbers.push(i);
+        }
+      } else if (currentPage <= 2) {
+        return [1, 2, 3, '...', totalPages];
+      } else if (currentPage >= totalPages - 1) {
+        return [1, '...', totalPages - 2, totalPages - 1, totalPages];
+      } else {
+        return [1, '...', currentPage, '...', totalPages];
+      }
+    }
+    // For medium screens and above
+    else {
+      if (totalPages <= 7) {
+        for (let i = 1; i <= totalPages; i++) {
+          pageNumbers.push(i);
+        }
+      } else if (currentPage <= 3) {
+        return [1, 2, 3, 4, 5, '...', totalPages];
+      } else if (currentPage >= totalPages - 2) {
+        return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+      } else {
+        return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+      }
+    }
+
+    return pageNumbers;
+  };
+
+  const pageNumbers = getPageNumbers();
+
+  // Calculate range of items being displayed
+  const firstItem = (currentPage - 1) * itemsPerPage + 1;
+  const lastItem = Math.min(currentPage * itemsPerPage, totalItems)
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-1xl mx-auto px-4 py-6">
@@ -200,105 +274,59 @@ export default function ProductManagementUI() {
             </div>
           </div>
         </div>
-        {/* Search and Filters - Desktop */}
-        {/* <div className="hidden md:flex justify-between mb-4 gap-2">
-          <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
-            {tabs.map((tab) => {
-              const isActive = tab === activeTab;
-              return (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${isActive
-                    ? "bg-[#EAF8FF] text-[#2086BF]"
-                    : "text-[#667085] hover:bg-gray-100"
-                    }`}
-                >
-                  {tab}
-                </button>
-              );
-            })}
-          </div>
-          <div className="flex space-x-2">
-            <div className="flex items-center rounded-md border border-gray-300 px-3 py-2">
-              <Search className="text-gray-400 w-4 h-4 mr-2" />
-              <input
-                type="text"
-                placeholder="Search product..."
-                className="text-sm text-gray-500 outline-none bg-transparent w-36"
-              />
+        <div className="w-full">
+          <div className="hidden md:flex justify-between mb-4 gap-2">
+            {/* Tabs section */}
+            <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
+              {tabs.map((tab) => {
+                const isActive = tab === activeTab;
+                return (
+                  <button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${isActive
+                      ? "bg-[#EAF8FF] text-[#2086BF]"
+                      : "text-[#667085] hover:bg-gray-100"
+                      }`}
+                  >
+                    {tab}
+                  </button>
+                );
+              })}
             </div>
 
-            <button className="flex items-center rounded-md border border-gray-300 px-3 py-2 text-gray-500">
-              <Calendar className="text-gray-400 w-4 h-4 mr-2" />
-              <span className="text-sm">Select Date</span>
-            </button>
+            {/* Search and filters section */}
+            <div className="flex space-x-2">
+              {/* Search input */}
+              <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
+                <Search className="text-gray-400 w-4 h-4 mr-1.5" />
+                <input
+                  type="text"
+                  placeholder="Search product..."
+                  className="text-sm text-gray-500 outline-none bg-transparent w-32"
+                />
+              </div>
 
-            <button className="flex items-center rounded-md border border-gray-300 px-3 py-2 text-gray-500 cursor-pointer">
-              <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-2" />
-              <span className="text-sm">Filters</span>
-            </button>
-
-            <button className="flex items-center rounded-md border border-gray-300 px-3 py-2 text-gray-500">
-              <LayoutGrid className="text-gray-400 w-4 h-4 mr-2" />
-              <span className="text-sm">Edit Column</span>
-            </button>
-          </div>
-        </div> */}
-           <div className="w-full">
-      <div className="hidden md:flex justify-between mb-4 gap-2">
-        {/* Tabs section */}
-        <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
-          {tabs.map((tab) => {
-            const isActive = tab === activeTab;
-            return (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
-                  isActive
-                    ? "bg-[#EAF8FF] text-[#2086BF]"
-                    : "text-[#667085] hover:bg-gray-100"
-                }`}
-              >
-                {tab}
+              {/* Date selector */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+                <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Select Date</span>
               </button>
-            );
-          })}
-        </div>
-        
-        {/* Search and filters section */}
-        <div className="flex space-x-2">
-          {/* Search input */}
-          <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
-            <Search className="text-gray-400 w-4 h-4 mr-1.5" />
-            <input
-              type="text"
-              placeholder="Search product..."
-              className="text-sm text-gray-500 outline-none bg-transparent w-32"
-            />
+
+              {/* Filters */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
+                <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Filters</span>
+              </button>
+
+              {/* Edit column */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+                <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Edit Column</span>
+              </button>
+            </div>
           </div>
-          
-          {/* Date selector */}
-          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
-            <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
-            <span className="text-sm">Select Date</span>
-          </button>
-          
-          {/* Filters */}
-          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
-            <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
-            <span className="text-sm">Filters</span>
-          </button>
-          
-          {/* Edit column */}
-          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
-            <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
-            <span className="text-sm">Edit Column</span>
-          </button>
         </div>
-      </div>
-    </div>
         <div className="bg-white rounded-lg shadow mb-6">
           {/* Mobile Tab Menu */}
           <div className="md:hidden border-b">
@@ -568,31 +596,50 @@ export default function ProductManagementUI() {
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-between mt-4 text-sm p-3">
-              <div className="text-gray-500 text-xs md:text-sm">
-                Showing 1-10 from 100
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 p-3">
+              <div className="text-gray-500 text-xs sm:text-sm">
+                Showing {firstItem}-{lastItem} from {totalItems}
               </div>
-              <div className="flex">
-                <button className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-md border mr-1 text-gray-500 hover:bg-gray-50">
-                  <ChevronLeft size={14} />
+              <div className="flex items-center gap-1 sm:gap-2">
+                <button
+                  onClick={() => changePage(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${currentPage === 1
+                      ? 'bg-blue-50 text-blue-300 cursor-not-allowed'
+                      : 'bg-blue-50 text-blue-500 hover:bg-blue-100'
+                    }`}
+                  aria-label="Previous page"
+                >
+                  <ChevronLeft size={windowWidth < 640 ? 16 : 20} />
                 </button>
-                <button className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-md bg-blue-600 text-white mr-1">
-                  1
-                </button>
-                <button className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-md border mr-1 text-gray-700 hover:bg-gray-50">
-                  2
-                </button>
-                <button className="hidden sm:flex w-7 h-7 md:w-8 md:h-8 items-center justify-center rounded-md border mr-1 text-gray-700 hover:bg-gray-50">
-                  3
-                </button>
-                <button className="hidden sm:flex w-7 h-7 md:w-8 md:h-8 items-center justify-center rounded-md border mr-1 text-gray-700 hover:bg-gray-50">
-                  4
-                </button>
-                <button className="hidden sm:flex w-7 h-7 md:w-8 md:h-8 items-center justify-center rounded-md border mr-1 text-gray-700 hover:bg-gray-50">
-                  5
-                </button>
-                <button className="w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-md border text-gray-500 hover:bg-gray-50">
-                  <ChevronRight size={14} />
+                {pageNumbers.map((number, index) => (
+                  number === '...' ? (
+                    <div key={`ellipsis-${index}`} className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-blue-500 font-medium">
+                      ...
+                    </div>
+                  ) : (
+                    <button
+                      key={number}
+                      onClick={() => changePage(number)}
+                      className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg font-medium cursor-pointer cursor-pointer ${currentPage === number
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-blue-50 text-blue-500 hover:bg-blue-100'
+                        }`}
+                    >
+                      {number}
+                    </button>
+                  )
+                ))}
+                <button
+                  onClick={() => changePage(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${currentPage === totalPages
+                      ? 'bg-blue-50 text-blue-300 cursor-not-allowed'
+                      : 'bg-blue-50 text-blue-500 hover:bg-blue-100'
+                    }`}
+                  aria-label="Next page"
+                >
+                  <ChevronRight size={windowWidth < 640 ? 16 : 20} />
                 </button>
               </div>
             </div>
