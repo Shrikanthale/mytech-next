@@ -183,7 +183,7 @@ export default function ResponsiveSidebar({ isMobileHeader = false, onClose }) {
                                     onClick={() => onClose?.()}
                                     className={`block py-2 px-2 text-sm transition-colors duration-200 ${
                                       childActive
-                                        ? "text-[#2086BF] font-medium"
+                                        ? "text-[#2086BF] bg-[#EAF8FF] font-medium"
                                         : "text-gray-600 hover:text-[#2086BF]"
                                     }`}
                                   >
