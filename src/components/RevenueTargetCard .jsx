@@ -12,7 +12,7 @@ const RevenueTargetCard = () => {
   const percentage = 75.55;
 
   return (
-    <div className="max-w-sm w-full p-4 rounded-2xl shadow-md bg-white">
+    <div className="max-w-xs w-full p-4 rounded-2xl shadow-md bg-white">
       <div className="text-sm font-medium text-gray-700">Target</div>
       <div className="text-xs text-gray-400 mb-4">Revenue Target</div>
 
