@@ -336,7 +336,7 @@ export default function ProductManagementUI() {
                     <th className="px-4 py-3 w-12">
                       <input
                         type="checkbox"
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                        className="rounded border-gray-300 accent-[#2086BF] w-4 h-4"
                         onChange={handleSelectAll}
                         checked={selectedProducts.length === products.length}
                       />
@@ -363,7 +363,7 @@ export default function ProductManagementUI() {
                       <td className="px-4 py-3 whitespace-nowrap">
                         <input
                           type="checkbox"
-                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                          className="rounded border-gray-300 accent-[#2086BF] w-4 h-4"
                           checked={selectedProducts.includes(product.id)}
                           onChange={() => handleSelectProduct(product.id)}
                         />
