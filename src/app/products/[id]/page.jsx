@@ -6,6 +6,8 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
+import arrowheader from "../../../assets/productimg/arrowheader.svg"
+import Successicon from "../../../assets/productimg/Successicon.svg"
 import {
   FaSave,
   FaTimes,
@@ -35,73 +37,64 @@ const MenuBar = ({ editor }) => {
     <div className="flex flex-wrap gap-1 mb-2">
       <button
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`p-1 rounded ${
-          editor.isActive("bold") ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive("bold") ? "bg-gray-200" : ""
+          }`}
       >
         <FaBold className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`p-1 rounded ${
-          editor.isActive("italic") ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive("italic") ? "bg-gray-200" : ""
+          }`}
       >
         <FaItalic className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`p-1 rounded ${
-          editor.isActive("underline") ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive("underline") ? "bg-gray-200" : ""
+          }`}
       >
         <FaUnderline className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign("left").run()}
-        className={`p-1 rounded ${
-          editor.isActive({ textAlign: "left" }) ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive({ textAlign: "left" }) ? "bg-gray-200" : ""
+          }`}
       >
         <FaAlignLeft className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign("center").run()}
-        className={`p-1 rounded ${
-          editor.isActive({ textAlign: "center" }) ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive({ textAlign: "center" }) ? "bg-gray-200" : ""
+          }`}
       >
         <FaAlignCenter className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign("right").run()}
-        className={`p-1 rounded ${
-          editor.isActive({ textAlign: "right" }) ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive({ textAlign: "right" }) ? "bg-gray-200" : ""
+          }`}
       >
         <FaAlignRight className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().setTextAlign("justify").run()}
-        className={`p-1 rounded ${
-          editor.isActive({ textAlign: "justify" }) ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive({ textAlign: "justify" }) ? "bg-gray-200" : ""
+          }`}
       >
         <FaAlignJustify className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleBulletList().run()}
-        className={`p-1 rounded ${
-          editor.isActive("bulletList") ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive("bulletList") ? "bg-gray-200" : ""
+          }`}
       >
         <FaListUl className="text-gray-700" />
       </button>
       <button
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
-        className={`p-1 rounded ${
-          editor.isActive("orderedList") ? "bg-gray-200" : ""
-        }`}
+        className={`p-1 rounded ${editor.isActive("orderedList") ? "bg-gray-200" : ""
+          }`}
       >
         <FaListOl className="text-gray-700" />
       </button>
@@ -187,21 +180,21 @@ export default function EditProduct({ params }) {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto p-4">
+      <div className=" mx-auto p-4">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">
               Edit Product
             </h1>
             <div className="text-sm text-gray-500 flex items-center">
-              <Link href="/dashboard" className="hover:text-blue-500">
+              <Link href="/dashboard" className="text-[#2086BF] hover:text-blue-500">
                 Dashboard
               </Link>
-              <span className="mx-2">/</span>
-              <Link href="/product-list" className="hover:text-blue-500">
+              <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
+              <Link href="/products" className="text-[#2086BF] hover:text-blue-500">
                 Product List
               </Link>
-              <span className="mx-2">/</span>
+              <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
               <span>Edit Product</span>
             </div>
           </div>
@@ -210,7 +203,7 @@ export default function EditProduct({ params }) {
               <FaTimes className="text-gray-500" />
               <span>Cancel</span>
             </button>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center gap-1">
+            <button className="px-4 py-2 bg-[#2086BF] text-white rounded-md flex items-center gap-1">
               <FaSave className="text-white" />
               <span>Save Product</span>
             </button>
@@ -255,28 +248,14 @@ export default function EditProduct({ params }) {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Photos
               </label>
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-w-xs mx-auto">
                 {[1, 2, 3].map((i) => (
                   <div
                     key={i}
-                    className="relative aspect-square bg-gray-100 rounded-md flex items-center justify-center overflow-hidden"
+                    className="relative aspect-square w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden"
                   >
-                    <div className="absolute top-2 right-2 bg-green-400 rounded-full p-1">
-                      <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M20 6L9 17L4 12"
-                          stroke="white"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
+                    <div className="absolute top-1 right-2 p-1">
+                   <Image src={Successicon} alt="" height={"auto"} width={"auto"} />
                     </div>
                   </div>
                 ))}
