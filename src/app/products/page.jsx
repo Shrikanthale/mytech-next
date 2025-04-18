@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import {
   Search,
   Filter,
@@ -17,133 +17,58 @@ import {
 } from "lucide-react";
 import { products } from "../../datastore/Products";
 import { useRouter } from "next/navigation";
-
-export default function page() {
+import Image from "next/image";
+import arrowheader from "../../assets/productimg/arrowheader.svg"
+import eyeball from "../../assets/productimg/eyeball.svg"
+export default function Page() {
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedTab, setSelectedTab] = useState("All Product");
   const [selectedProducts, setSelectedProducts] = useState([302010, 302011]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showMobileFilters, setShowMobileFilters] = useState(false);
-  const tabs = ["All Product", "Published", "Low Stock", "Draft"];
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0
   );
-  const router = useRouter();
-  const totalItems = 100; // Example: total number of items in your data
+
+  // Filter products based on selected tab and search query
+  const filteredProducts = useMemo(() => {
+    let result = [...products];
+
+    // Filter by tab
+    if (selectedTab === "Published") {
+      result = result.filter(product => product.status === "Published");
+    } else if (selectedTab === "Low Stock") {
+      result = result.filter(product => product.status === "Low Stock");
+    } else if (selectedTab === "Draft") {
+      result = result.filter(product => product.status === "Draft");
+    }
+
+    // Filter by search query if present
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.sku.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+      );
+    }
+
+    return result;
+  }, [selectedTab, searchQuery, products]);
+
+  // Calculate pagination
+  const totalItems = filteredProducts.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  //   const products = [
-  //     {
-  //       id: 302010,
-  //       name: "Handmade Pouch",
-  //       variants: 3,
-  //       sku: "302010",
-  //       category: "Bag & Pouch",
-  //       stock: 10,
-  //       price: "$121.00",
-  //       status: "Low Stock",
-  //       added: "29 Dec 2022",
-  //     },
-  //     {
-  //       id: 302011,
-  //       name: "Smartwatch E2",
-  //       variants: 3,
-  //       sku: "302011",
-  //       category: "Watch",
-  //       stock: 204,
-  //       price: "$595.00",
-  //       status: "Published",
-  //       added: "24 Dec 2022",
-  //     },
-  //     {
-  //       id: 301002,
-  //       name: "Smartwatch E1",
-  //       variants: 3,
-  //       sku: "301002",
-  //       category: "Watch",
-  //       stock: 46,
-  //       price: "$125.00",
-  //       status: "Draft",
-  //       added: "12 Dec 2022",
-  //     },
-  //     {
-  //       id: 301061,
-  //       name: "Headphone G1 Pro",
-  //       variants: 1,
-  //       sku: "301061",
-  //       category: "Audio",
-  //       stock: 401,
-  //       price: "$348.00",
-  //       status: "Published",
-  //       added: "21 Oct 2022",
-  //     },
-  //     {
-  //       id: 301960,
-  //       name: "iPhone X",
-  //       variants: 4,
-  //       sku: "301960",
-  //       category: "Smartphone",
-  //       stock: 120,
-  //       price: "$607.00",
-  //       status: "Published",
-  //       added: "21 Oct 2022",
-  //     },
-  //     {
-  //       id: 301861,
-  //       name: "Puma Shoes",
-  //       variants: 3,
-  //       sku: "301861",
-  //       category: "Shoes",
-  //       stock: 432,
-  //       price: "$234.00",
-  //       status: "Published",
-  //       added: "21 Oct 2022",
-  //     },
-  //     {
-  //       id: 301643,
-  //       name: "Logic+ Wireless Mouse",
-  //       variants: 1,
-  //       sku: "301643",
-  //       category: "Mouse",
-  //       stock: 0,
-  //       price: "$760.00",
-  //       status: "Out of Stock",
-  //       added: "19 Sep 2022",
-  //     },
-  //     {
-  //       id: 301600,
-  //       name: "Nike Shoes",
-  //       variants: 2,
-  //       sku: "301600",
-  //       category: "Shoes",
-  //       stock: 347,
-  //       price: "$400.00",
-  //       status: "Published",
-  //       added: "19 Sep 2022",
-  //     },
-  //     {
-  //       id: 301555,
-  //       name: "Lego Car",
-  //       variants: 2,
-  //       sku: "301555",
-  //       category: "Toys",
-  //       stock: 299,
-  //       price: "$612.00",
-  //       status: "Published",
-  //       added: "19 Sep 2022",
-  //     },
-  //     {
-  //       id: 301002,
-  //       name: "PR Wireless Controller",
-  //       variants: 5,
-  //       sku: "301002",
-  //       category: "Beauty",
-  //       stock: 38,
-  //       price: "$123.00",
-  //       status: "Draft",
-  //       added: "10 Aug 2022",
-  //     },
-  //   ];
+
+  // Get current page products
+  const currentProducts = useMemo(() => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    return filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
+  }, [filteredProducts, currentPage, itemsPerPage]);
 
   const handleSelectProduct = (id) => {
     if (selectedProducts.includes(id)) {
@@ -157,7 +82,7 @@ export default function page() {
 
   const handleSelectAll = (e) => {
     if (e.target.checked) {
-      setSelectedProducts(products.map((product) => product.id));
+      setSelectedProducts(currentProducts.map((product) => product.id));
     } else {
       setSelectedProducts([]);
     }
@@ -175,7 +100,7 @@ export default function page() {
         return "text-gray-500";
     }
   };
-  const [activeTab, setActiveTab] = useState("All Product");
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
   };
@@ -200,6 +125,11 @@ export default function page() {
       setCurrentPage(pageNumber);
     }
   };
+
+  // Reset to first page when tab or search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedTab, searchQuery]);
 
   // Get page numbers to display based on screen size
   const getPageNumbers = () => {
@@ -269,8 +199,11 @@ export default function page() {
   const pageNumbers = getPageNumbers();
 
   // Calculate range of items being displayed
-  const firstItem = (currentPage - 1) * itemsPerPage + 1;
+  const firstItem = totalItems === 0 ? 0 : (currentPage - 1) * itemsPerPage + 1;
   const lastItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+  const tabs = ["All Product", "Published", "Low Stock", "Draft"];
+
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className="max-w-1xl mx-auto px-4 py-6">
@@ -279,9 +212,9 @@ export default function page() {
             <h1 className="text-xl md:text-2xl font-bold text-gray-800">
               Product
             </h1>
-            <div className="flex text-xs md:text-sm mt-1 text-gray-500">
-              <span>Dashboard</span>
-              <span className="mx-2">/</span>
+            <div className="flex items-center justify-center text-xs md:text-sm mt-1 text-gray-500">
+              <span style={{color:"#2086BF" , fontWeight:500}} >Dashboard</span>
+              <span className="mx-2"> <Image src={arrowheader} alt="img" width={"auto"} height={"auto"} /> </span>
               <span className="text-gray-800">Product List</span>
             </div>
           </div>
@@ -298,59 +231,61 @@ export default function page() {
           </div>
         </div>
         <div className="w-full">
-          <div className="hidden md:flex justify-between mb-4 gap-2">
-            {/* Tabs section */}
-            <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm">
-              {tabs.map((tab) => {
-                const isActive = tab === activeTab;
-                return (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
-                      isActive
-                        ? "bg-[#EAF8FF] text-[#2086BF]"
-                        : "text-[#667085] hover:bg-gray-100"
-                    }`}
-                  >
-                    {tab}
-                  </button>
-                );
-              })}
-            </div>
+  <div className="hidden md:flex flex-col lg:flex-row justify-between items-center mb-4 gap-3">
+    {/* Tabs section - centered on md screens, left aligned on lg screens */}
+    <div className="inline-flex gap-2 items-center rounded-lg border border-gray-200 bg-white p-1 shadow-sm mx-auto lg:mx-0">
+      {tabs.map((tab) => {
+        const isActive = tab === selectedTab;
+        return (
+          <button
+            key={tab}
+            onClick={() => setSelectedTab(tab)}
+            className={`px-4 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 cursor-pointer ${
+              isActive
+                ? "bg-[#EAF8FF] text-[#2086BF]"
+                : "text-[#667085] hover:bg-gray-100"
+            }`}
+          >
+            {tab}
+          </button>
+        );
+      })}
+    </div>
 
-            {/* Search and filters section */}
-            <div className="flex space-x-2">
-              {/* Search input */}
-              <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
-                <Search className="text-gray-400 w-4 h-4 mr-1.5" />
-                <input
-                  type="text"
-                  placeholder="Search product..."
-                  className="text-sm text-gray-500 outline-none bg-transparent w-32"
-                />
-              </div>
+    {/* Search and filters section - centered on md screens, right aligned on lg screens */}
+    <div className="flex flex-wrap justify-center gap-2 mx-auto lg:mx-0">
+      {/* Search input */}
+      <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5">
+        <Search className="text-gray-400 w-4 h-4 mr-1.5" />
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="text-sm text-gray-500 outline-none bg-transparent w-32"
+        />
+      </div>
 
-              {/* Date selector */}
-              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
-                <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
-                <span className="text-sm">Select Date</span>
-              </button>
+      {/* Date selector */}
+      <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+        <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
+        <span className="text-sm">Select Date</span>
+      </button>
 
-              {/* Filters */}
-              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
-                <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
-                <span className="text-sm">Filters</span>
-              </button>
+      {/* Filters */}
+      <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
+        <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
+        <span className="text-sm">Filters</span>
+      </button>
 
-              {/* Edit column */}
-              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
-                <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
-                <span className="text-sm">Edit Column</span>
-              </button>
-            </div>
-          </div>
-        </div>
+      {/* Edit column */}
+      <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+        <LayoutGrid className="text-gray-400 w-4 h-4 mr-1.5" />
+        <span className="text-sm">Edit Column</span>
+      </button>
+    </div>
+  </div>
+</div>
         <div className="bg-white rounded-lg shadow mb-6">
           {/* Mobile Tab Menu */}
           <div className="md:hidden border-b">
@@ -369,11 +304,10 @@ export default function page() {
                 {tabs.map((tab) => (
                   <button
                     key={tab}
-                    className={`block w-full text-left px-4 py-2 text-sm rounded-md mb-1 ${
-                      selectedTab === tab
+                    className={`block w-full text-left px-4 py-2 text-sm rounded-md mb-1 ${selectedTab === tab
                         ? "text-blue-600 bg-blue-50 font-medium"
                         : "text-gray-600 hover:bg-gray-100"
-                    }`}
+                      }`}
                     onClick={() => {
                       setSelectedTab(tab);
                       setMobileMenuOpen(false);
@@ -408,6 +342,8 @@ export default function page() {
                 <input
                   type="text"
                   placeholder="Search product..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 pr-4 py-2 border rounded-md w-full text-sm"
                 />
               </div>
@@ -454,7 +390,12 @@ export default function page() {
                         type="checkbox"
                         className="rounded border-gray-300 accent-[#2086BF] w-4 h-4"
                         onChange={handleSelectAll}
-                        checked={selectedProducts.length === products.length}
+                        checked={
+                          currentProducts.length > 0 &&
+                          currentProducts.every((product) =>
+                            selectedProducts.includes(product.id)
+                          )
+                        }
                       />
                     </th>
                     <th className="px-4 py-3">Product</th>
@@ -468,223 +409,236 @@ export default function page() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {products.map((product) => (
-                    <tr
-                      key={product.id}
-                      className={`hover:bg-gray-50 ${
-                        selectedProducts.includes(product.id)
-                          ? "bg-gray-100"
-                          : ""
-                      }`}
-                    >
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <input
-                          type="checkbox"
-                          className="rounded border-gray-300 accent-[#2086BF] w-4 h-4"
-                          checked={selectedProducts.includes(product.id)}
-                          onChange={() => handleSelectProduct(product.id)}
-                        />
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="w-10 h-10 bg-gray-200 rounded-md mr-3"></div>
-                          <div>
-                            <div className="font-medium text-gray-900">
-                              {product.name}
-                            </div>
-                            <div className="text-xs text-gray-500">
-                              {product.variations.length} variants
+                  {currentProducts.length > 0 ? (
+                    currentProducts.map((product) => (
+                      <tr
+                        key={product.id}
+                        className={`hover:bg-gray-50 ${selectedProducts.includes(product.id)
+                            ? "bg-gray-100"
+                            : ""
+                          }`}
+                      >
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <input
+                            type="checkbox"
+                            className="rounded border-gray-300 accent-[#2086BF] w-4 h-4"
+                            checked={selectedProducts.includes(product.id)}
+                            onChange={() => handleSelectProduct(product.id)}
+                          />
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center">
+                            <div className="w-10 h-10 bg-gray-200 rounded-md mr-3"></div>
+                            <div>
+                              <div className="font-medium text-gray-900">
+                                {product.name}
+                              </div>
+                              <div className="text-xs text-gray-500">
+                                {product.variations ? product.variations.length : 0} variants
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-[#2086BF]">
-                        {product.sku}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {product.category}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {product.quantity}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {product.price}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        <span
-                          className={`text-xs px-2 py-1 rounded-sm ${
-                            product.status === "Published"
-                              ? "bg-green-100 text-green-800"
-                              : product.status === "Low Stock"
-                              ? "bg-yellow-100 text-yellow-800"
-                              : product.status === "Out of Stock"
-                              ? "bg-red-100 text-red-800"
-                              : "bg-gray-100 text-gray-800"
-                          }`}
-                        >
-                          {product.status}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {product.added || "24 Dec 2022"}
-                      </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm">
-                        <div className="flex space-x-2">
-                          <button className="p-1 text-gray-400 hover:text-blue-600">
-                            <Edit2
-                              style={{ cursor: "pointer" }}
-                              size={16}
-                              onClick={() => {
-                                router.push(`/products/${product.id}`);
-                              }}
-                            />
-                          </button>
-                          <button className="p-1 text-gray-400 hover:text-red-600">
-                            <Trash2 size={16} style={{ cursor: "pointer" }} />
-                          </button>
-                          <button className="p-1 text-gray-400 hover:text-gray-600">
-                            <MoreHorizontal size={16} />
-                          </button>
-                        </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-[#2086BF]">
+                          {product.sku}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
+                          {product.category}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
+                          {product.quantity || product.stock || 0}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
+                          {product.price}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span
+                            className={`text-xs px-2 py-1 rounded-sm ${product.status === "Published"
+                                ? "bg-green-100 text-[#1A9882] font-medium"
+                                : product.status === "Low Stock"
+                                  ? "bg-[#FFF0EA] text-[#F86624] font-medium"
+                                  : product.status === "Out of Stock"
+                                    ? "bg-red-100 text-red-800"
+                                    : "bg-[#F0F1F3] text-[#667085]"
+                              }`}
+                          >
+                            {product.status}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
+                          {product.added || "24 Dec 2022"}
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-sm">
+                          <div className="flex space-x-2">
+                            <button className="p-1 text-gray-400 hover:text-blue-600">
+                              <Edit2
+                                style={{ cursor: "pointer" }}
+                                size={16}
+                                onClick={() => {
+                                  router.push(`/products/${product.id}`);
+                                }}
+                              />
+                            </button>
+                            <button className="p-1 text-gray-400 hover:text-red-600">
+                              <Trash2 size={16} style={{ cursor: "pointer" }} />
+                            </button>
+                            <button className="p-1 text-gray-400 hover:text-gray-600">
+                              <Image src={eyeball} alt="img" height={"auto"} width={"auto"} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="9" className="px-4 py-6 text-center text-gray-500">
+                        No products found
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>
 
             {/* Card view for mobile */}
             <div className="md:hidden">
-              {products.map((product) => (
-                <div
-                  key={product.id}
-                  className="border rounded-md mb-3 overflow-hidden"
-                >
-                  <div className="flex items-center justify-between p-3 bg-gray-50">
-                    <div className="flex items-center">
-                      <input
-                        type="checkbox"
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"
-                        checked={selectedProducts.includes(product.id)}
-                        onChange={() => handleSelectProduct(product.id)}
-                      />
-                      <span className="font-medium text-sm">
-                        {product.name}
+              {currentProducts.length > 0 ? (
+                currentProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="border rounded-md mb-3 overflow-hidden"
+                  >
+                    <div className="flex items-center justify-between p-3 bg-gray-50">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          className="rounded border-gray-300 text-blue-600 focus:ring-blue-500 mr-3"
+                          checked={selectedProducts.includes(product.id)}
+                          onChange={() => handleSelectProduct(product.id)}
+                        />
+                        <span className="font-medium text-sm">
+                          {product.name}
+                        </span>
+                      </div>
+                      <span
+                        className={`text-xs px-2 py-1 rounded-full ${product.status === "Published"
+                            ? "bg-green-100 text-[#1A9882] font-medium"
+                            : product.status === "Low Stock"
+                              ? "bg-[#FFF0EA] text-[#F86624] font-medium"
+                              : product.status === "Out of Stock"
+                                ? "bg-red-100 text-red-800"
+                                : "bg-[#F0F1F3] text-[#667085]"
+                          }`}
+                      >
+                        {product.status}
                       </span>
                     </div>
-                    <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        product.status === "Published"
-                          ? "bg-green-100 text-green-800"
-                          : product.status === "Low Stock"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : product.status === "Out of Stock"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-gray-100 text-gray-800"
-                      }`}
-                    >
-                      {product.status}
-                    </span>
-                  </div>
-                  <div className="p-3">
-                    <div className="flex mb-2">
-                      <div className="w-16 h-16 bg-gray-200 rounded-md mr-3"></div>
-                      <div>
-                        <div className="text-xs text-gray-500 mb-1">
-                          {product.variants} variants
-                        </div>
-                        <div className="text-sm font-medium mb-1">
-                          {product.price}
-                        </div>
-                        <div className="text-xs text-[#2086BF]">
-                          SKU: {product.sku}
+                    <div className="p-3">
+                      <div className="flex mb-2">
+                        <div className="w-16 h-16 bg-gray-200 rounded-md mr-3"></div>
+                        <div>
+                          <div className="text-xs text-gray-500 mb-1">
+                            {product.variations ? product.variations.length : 0} variants
+                          </div>
+                          <div className="text-sm font-medium mb-1">
+                            {product.price}
+                          </div>
+                          <div className="text-xs text-[#2086BF]">
+                            SKU: {product.sku}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-3">
-                      <div>
-                        <span className="text-gray-500">Category:</span>{" "}
-                        {product.category}
+                      <div className="grid grid-cols-2 gap-2 text-xs text-gray-600 mb-3">
+                        <div>
+                          <span className="text-gray-500">Category:</span>{" "}
+                          {product.category}
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Stock:</span>{" "}
+                          {product.quantity || product.stock || 0}
+                        </div>
+                        <div>
+                          <span className="text-gray-500">Added:</span>{" "}
+                          {product.added || "24 Dec 2022"}
+                        </div>
                       </div>
-                      <div>
-                        <span className="text-gray-500">Stock:</span>{" "}
-                        {product.stock}
+                      <div className="flex justify-end space-x-2 border-t pt-2">
+                        <button
+                          className="p-1.5 text-gray-400 hover:text-blue-600"
+                          onClick={() => {
+                            router.push(`/products/${product.id}`);
+                          }}
+                        >
+                          <Edit2 size={16} />
+                        </button>
+                        <button className="p-1.5 text-gray-400 hover:text-red-600">
+                          <Trash2 size={16} />
+                        </button>
+                        <button className="p-1.5 text-gray-400 hover:text-gray-600">
+                          <MoreHorizontal size={16} />
+                        </button>
                       </div>
-                      <div>
-                        <span className="text-gray-500">Added:</span>{" "}
-                        {product.added || "24 Dec 2022"}
-                      </div>
-                    </div>
-                    <div className="flex justify-end space-x-2 border-t pt-2">
-                      <button className="p-1.5 text-gray-400 hover:text-blue-600">
-                        <Edit2 size={16} />
-                      </button>
-                      <button className="p-1.5 text-gray-400 hover:text-red-600">
-                        <Trash2 size={16} />
-                      </button>
-                      <button className="p-1.5 text-gray-400 hover:text-gray-600">
-                        <MoreHorizontal size={16} />
-                      </button>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <div className="text-center p-4 text-gray-500">No products found</div>
+              )}
             </div>
 
-            {/* Pagination */}
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 p-3">
-              <div className="text-gray-500 text-xs sm:text-sm">
-                Showing {firstItem}-{lastItem} from {totalItems}
-              </div>
-              <div className="flex items-center gap-1 sm:gap-2">
-                <button
-                  onClick={() => changePage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${
-                    currentPage === 1
-                      ? "bg-blue-50 text-blue-300 cursor-not-allowed"
-                      : "bg-blue-50 text-blue-500 hover:bg-blue-100"
-                  }`}
-                  aria-label="Previous page"
-                >
-                  <ChevronLeft size={windowWidth < 640 ? 16 : 20} />
-                </button>
-                {pageNumbers.map((number, index) =>
-                  number === "..." ? (
-                    <div
-                      key={`ellipsis-${index}`}
-                      className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-blue-500 font-medium"
-                    >
-                      ...
-                    </div>
-                  ) : (
-                    <button
-                      key={number}
-                      onClick={() => changePage(number)}
-                      className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg font-medium cursor-pointer cursor-pointer ${
-                        currentPage === number
-                          ? "bg-blue-500 text-white"
-                          : "bg-blue-50 text-blue-500 hover:bg-blue-100"
+            {/* Pagination - Only show if there are items */}
+            {totalItems > 0 && (
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4 p-3">
+                <div className="text-gray-500 text-xs sm:text-sm">
+                  Showing {firstItem}-{lastItem} from {totalItems}
+                </div>
+                <div className="flex items-center gap-1 sm:gap-2">
+                  <button
+                    onClick={() => changePage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${currentPage === 1
+                        ? "bg-blue-50 text-blue-300 cursor-not-allowed"
+                        : "bg-blue-50 text-blue-500 hover:bg-blue-100"
                       }`}
-                    >
-                      {number}
-                    </button>
-                  )
-                )}
-                <button
-                  onClick={() => changePage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${
-                    currentPage === totalPages
-                      ? "bg-blue-50 text-blue-300 cursor-not-allowed"
-                      : "bg-blue-50 text-blue-500 hover:bg-blue-100"
-                  }`}
-                  aria-label="Next page"
-                >
-                  <ChevronRight size={windowWidth < 640 ? 16 : 20} />
-                </button>
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft size={windowWidth < 640 ? 16 : 20} />
+                  </button>
+                  {pageNumbers.map((number, index) =>
+                    number === "..." ? (
+                      <div
+                        key={`ellipsis-${index}`}
+                        className="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-blue-500 font-medium"
+                      >
+                        ...
+                      </div>
+                    ) : (
+                      <button
+                        key={number}
+                        onClick={() => changePage(number)}
+                        className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg font-medium cursor-pointer ${currentPage === number
+                            ? "bg-blue-500 text-white"
+                            : "bg-blue-50 text-blue-500 hover:bg-blue-100"
+                          }`}
+                      >
+                        {number}
+                      </button>
+                    )
+                  )}
+                  <button
+                    onClick={() => changePage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-lg cursor-pointer ${currentPage === totalPages
+                        ? "bg-blue-50 text-blue-300 cursor-not-allowed"
+                        : "bg-blue-50 text-blue-500 hover:bg-blue-100"
+                      }`}
+                    aria-label="Next page"
+                  >
+                    <ChevronRight size={windowWidth < 640 ? 16 : 20} />
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
