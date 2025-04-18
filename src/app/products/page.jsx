@@ -16,6 +16,7 @@ import {
   SlidersHorizontal,
 } from "lucide-react";
 import { products } from "../../datastore/Products";
+import { useRouter } from "next/navigation";
 
 export default function page() {
   const [selectedTab, setSelectedTab] = useState("All Product");
@@ -28,6 +29,7 @@ export default function page() {
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 0
   );
+  const router = useRouter();
   const totalItems = 100; // Example: total number of items in your data
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   //   const products = [
@@ -491,7 +493,7 @@ export default function page() {
                               {product.name}
                             </div>
                             <div className="text-xs text-gray-500">
-                              {product.variants} variants
+                              {product.variations.length} variants
                             </div>
                           </div>
                         </div>
@@ -503,7 +505,7 @@ export default function page() {
                         {product.category}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {product.stock}
+                        {product.quantity}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
                         {product.price}
@@ -524,15 +526,21 @@ export default function page() {
                         </span>
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">
-                        {product.added}
+                        {product.added || "24 Dec 2022"}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap text-sm">
                         <div className="flex space-x-2">
                           <button className="p-1 text-gray-400 hover:text-blue-600">
-                            <Edit2 size={16} />
+                            <Edit2
+                              style={{ cursor: "pointer" }}
+                              size={16}
+                              onClick={() => {
+                                router.push(`/products/${product.id}`);
+                              }}
+                            />
                           </button>
                           <button className="p-1 text-gray-400 hover:text-red-600">
-                            <Trash2 size={16} />
+                            <Trash2 size={16} style={{ cursor: "pointer" }} />
                           </button>
                           <button className="p-1 text-gray-400 hover:text-gray-600">
                             <MoreHorizontal size={16} />
@@ -604,7 +612,7 @@ export default function page() {
                       </div>
                       <div>
                         <span className="text-gray-500">Added:</span>{" "}
-                        {product.added}
+                        {product.added || "24 Dec 2022"}
                       </div>
                     </div>
                     <div className="flex justify-end space-x-2 border-t pt-2">
