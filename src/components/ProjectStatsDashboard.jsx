@@ -1,12 +1,16 @@
 // ProjectStatsDashboard.jsx
 import React from "react";
-
+import cardoneicon from "../../src/assets/dashboardimgs/cardoneicon.svg"
+import cardicontwo from "../../src/assets/dashboardimgs/cardicontwo.svg"
+import cardiconthree from "../../src/assets/dashboardimgs/cardiconthree.svg"
+import cardiconfour from "../../src/assets/dashboardimgs/cardiconfour.svg"
+import Image from "next/image";
 const ProjectStatsDashboard = () => {
   return (
-    <div className="bg-gray-50 p-6 w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="py-3 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Total Project Card */}
-        <div className="bg-white rounded-lg shadow-sm p-5 flex justify-between items-start">
+        <div className="bg-white rounded-lg shadow-md p-5 flex justify-between items-start">
           <div>
             <h3 className="text-gray-400 text-sm font-medium mb-1">
               Total Project
@@ -33,7 +37,7 @@ const ProjectStatsDashboard = () => {
               <span className="text-gray-400 text-xs ml-1">+$150 today</span>
             </div>
           </div>
-          <div className="rounded-full bg-blue-100 p-2">
+          {/* <div className="rounded-full bg-blue-100 p-2">
             <svg
               className="w-5 h-5 text-blue-500"
               fill="currentColor"
@@ -46,7 +50,8 @@ const ProjectStatsDashboard = () => {
                 clipRule="evenodd"
               ></path>
             </svg>
-          </div>
+          </div> */}
+          <Image src={cardoneicon} alt="" height={"auto"} width={"auto"} /> 
         </div>
 
         {/* In Progress Card */}
@@ -77,17 +82,7 @@ const ProjectStatsDashboard = () => {
               <span className="text-gray-400 text-xs ml-1">+$150 today</span>
             </div>
           </div>
-          <div className="rounded-full bg-orange-100 p-2">
-            <svg
-              className="w-5 h-5 text-orange-500"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"></path>
-              <path d="M10 4a6 6 0 100 12 6 6 0 000-12zm0 10a4 4 0 110-8 4 4 0 010 8z"></path>
-            </svg>
-          </div>
+          <Image src={cardicontwo} alt="" height={"auto"} width={"auto"} /> 
         </div>
 
         {/* Finished Card */}
@@ -116,20 +111,7 @@ const ProjectStatsDashboard = () => {
               <span className="text-gray-400 text-xs ml-1">+$150 today</span>
             </div>
           </div>
-          <div className="rounded-full bg-teal-100 p-2">
-            <svg
-              className="w-5 h-5 text-teal-500"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </div>
+          <Image src={cardiconthree} alt="" height={"auto"} width={"auto"} /> 
         </div>
 
         {/* Unfinished Card */}
@@ -160,20 +142,7 @@ const ProjectStatsDashboard = () => {
               <span className="text-gray-400 text-xs ml-1">+$150 today</span>
             </div>
           </div>
-          <div className="rounded-full bg-red-100 p-2">
-            <svg
-              className="w-5 h-5 text-red-500"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </div>
+          <Image src={cardiconfour} alt="" height={"auto"} width={"auto"} /> 
         </div>
       </div>
     </div>
