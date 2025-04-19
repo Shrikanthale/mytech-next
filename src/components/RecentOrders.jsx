@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { Eye, Trash2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Eye, Trash2, ChevronLeft, ChevronRight,SlidersHorizontal,Calendar} from 'lucide-react';
 import { useRouter } from "next/navigation";
 
 export default function RecentOrdersDashboard() {
@@ -175,18 +175,14 @@ export default function RecentOrdersDashboard() {
             <span className="ml-2 px-2 py-0.5 bg-gray-100 rounded text-xs text-green-700 bg-green-100 ">+2 Orders</span>
           </div>
           <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-            <button className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              Select Date
-            </button>
-            <button className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-100 text-gray-600 rounded">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" />
-              </svg>
-              Filters
-            </button>
+          <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+                <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Select Date</span>
+              </button>
+            <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
+                <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Filters</span>
+              </button>
             <div className="text-[#2086BF] px-3 py-1.5 text-sm bg-[#EAF8FF] rounded-lg">See All</div>
           </div>
         </div>
