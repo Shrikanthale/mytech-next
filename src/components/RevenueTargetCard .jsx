@@ -13,7 +13,7 @@ const RevenueTargetCard = () => {
   const percentage = 75.55;
 
   return (
-    <div className="max-w-xs w-full p-6 rounded-2xl shadow-md bg-white">
+    <div className="max-w-lg w-full p-6 rounded-2xl shadow-md bg-white">
       <div className="flex justify-between" >
         <div>
 
@@ -23,7 +23,7 @@ const RevenueTargetCard = () => {
         <Image src={threedots} alt="" height={"auto"} width={"auto"} />
       </div>
 
-      <div className="w-60 h-40 mx-auto mb-2">
+      <div className="w-60 h-45 mx-auto mb-2">
         <CircularProgressbarWithChildren
           value={percentage}
           maxValue={100}

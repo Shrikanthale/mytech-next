@@ -47,7 +47,7 @@ const StatisticsChart = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm w-full max-w-4xl mx-auto">
+    <div className="bg-white p-3 rounded-lg shadow-sm w-full mx-auto">
       <div className="mb-4">
         <h2 className="text-lg font-medium text-gray-700">Statistic</h2>
         <p className="text-sm text-gray-500">Revenue and Sales</p>
@@ -67,7 +67,7 @@ const StatisticsChart = () => {
       </div>
 
       {/* Fixed height container */}
-      <div className="w-full h-64 md:h-72" style={{ minHeight: "250px" }}>
+      <div className="w-full h-64 md:h-72" style={{ minHeight: "200px" }}>
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
