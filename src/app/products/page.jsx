@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import TopNavbar from "../../components/TopNavbar";
 import { products } from "../../datastore/Products";
 import eyeball from "../../assets/productimg/eyeball.svg"
 import plusicon from "../../assets/productimg/plusicon.svg"
@@ -207,7 +208,8 @@ export default function Page() {
 
   return (
     <div className="bg-gray-50 min-h-screen">
-      <div className="max-w-1xl mx-auto px-4 py-6">
+      <TopNavbar />
+      <div className="max-w-1xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center mb-6">
           <div>
             <h1 className="text-xl md:text-2xl font-bold text-gray-800">
