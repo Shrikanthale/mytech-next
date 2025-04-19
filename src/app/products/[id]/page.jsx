@@ -190,32 +190,32 @@ export default function EditProduct({ params }) {
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className=" mx-auto p-4">
-      <div className="flex justify-between items-center mb-6 flex-col md:flex-row">
-  <div>
-    <h1 className="text-2xl font-semibold text-gray-800">Edit Product</h1>
-    <div className="text-sm text-gray-500 flex items-center flex-wrap">
-      <Link href="/dashboard" className="text-[#2086BF] hover:text-blue-500">
-        Dashboard
-      </Link>
-      <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
-      <Link href="/products" className="text-[#2086BF] hover:text-blue-500">
-        Product List
-      </Link>
-      <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
-      <span>Edit Product</span>
-    </div>
-  </div>
-  <div className="flex items-center gap-2 mt-4 md:mt-0">
-    <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 flex items-center gap-1">
-      <FaTimes className="text-gray-500" />
-      <span>Cancel</span>
-    </button>
-    <button className="px-4 py-2 bg-[#2086BF] text-white rounded-md flex items-center gap-1">
-      <FaSave className="text-white" />
-      <span>Save Product</span>
-    </button>
-  </div>
-</div>
+        <div className="flex justify-between items-center mb-6 flex-col md:flex-row">
+          <div>
+            <h1 className="text-2xl font-semibold text-gray-800">Edit Product</h1>
+            <div className="text-sm text-gray-500 flex items-center flex-wrap">
+              <Link href="/dashboard" className="text-[#2086BF] hover:text-blue-500">
+                Dashboard
+              </Link>
+              <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
+              <Link href="/products" className="text-[#2086BF] hover:text-blue-500">
+                Product List
+              </Link>
+              <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
+              <span>Edit Product</span>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 mt-4 md:mt-0">
+            <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 flex items-center gap-1">
+              <FaTimes className="text-gray-500" />
+              <span>Cancel</span>
+            </button>
+            <button className="px-4 py-2 bg-[#2086BF] text-white rounded-md flex items-center gap-1">
+              <FaSave className="text-white" />
+              <span>Save Product</span>
+            </button>
+          </div>
+        </div>
 
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -522,8 +522,8 @@ export default function EditProduct({ params }) {
           </div>
 
           <div className="lg:col-span-1">
-             {/* Category */}
-             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
+            {/* Category */}
+            <div className="bg-white rounded-md shadow-sm p-6 mb-6">
               <h2 className="text-lg font-medium text-gray-800 mb-4">
                 Category
               </h2>
