@@ -129,6 +129,7 @@ export default function EditProduct({ params }) {
   const findProduct = products.find(
     (product) => product.id === Number(params.id)
   );
+
   const [formData, setFormData] = useState({
     name: findProduct.name,
     price: findProduct.price,
@@ -143,9 +144,9 @@ export default function EditProduct({ params }) {
     length: findProduct.length,
     variations: findProduct.variations || [],
     description: findProduct.description,
+    images: [], // Array to store uploaded images
   });
 
-  console.log("findProduct", findProduct, params.id);
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -162,6 +163,14 @@ export default function EditProduct({ params }) {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageUpload = (e) => {
+    const files = Array.from(e.target.files);
+    setFormData((prev) => ({
+      ...prev,
+      images: [...prev.images, ...files],
+    }));
   };
 
   const addVariation = () => {
@@ -245,26 +254,43 @@ export default function EditProduct({ params }) {
             {/* Media */}
             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
               <h2 className="text-lg font-medium text-gray-800 mb-4">Media</h2>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Photos
-              </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-w-xs mx-auto">
-                {[1, 2, 3].map((i) => (
-                  <div
-                    key={i}
-                    className="relative aspect-square w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden"
-                  >
-                    <div className="absolute top-1 right-2 p-1">
-                   <Image src={Successicon} alt="" height={"auto"} width={"auto"} />
+              <label className="block text-sm font-medium text-gray-700 mb-2">Photos</label>
+              <div className="bg-[#F9F9FC] p-4 py-5 flex flex-col gap-2 border-2 border-dashed border-[#E0E2E7]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 max-w-xs mx-auto mt-2">
+                  {formData.images.map((image, index) => (
+                    <div key={index} className="relative aspect-square w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-md flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={URL.createObjectURL(image)}
+                        alt={`Uploaded Image ${index + 1}`}
+                        className="object-cover"
+                        height={100}
+                        width={100}
+                      />
+                      <div className="absolute top-1 right-2 p-1">
+                        <Image src={Successicon} alt="" height={"auto"} width={"auto"} />
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 text-center">
-                <p className="text-sm text-gray-500 mb-2">
-                  Drag and drop images here, or click and upload
-                </p>
-                <button className="text-blue-500 text-sm">Add Image</button>
+                  ))}
+                </div>
+                <div className="mt-4 text-center">
+                  <p className="text-sm text-gray-500 mb-2">
+                    Drag and drop image here, or click add image
+                  </p>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleImageUpload}
+                    className="hidden" // Hide the default file input
+                    id="image-upload"
+                  />
+                  <label
+                    htmlFor="image-upload"
+                    className="text-[#2086BF] bg-[#EAF8FF] p-2 rounded-sm text-sm cursor-pointer"
+                  >
+                    Add Image
+                  </label>
+                </div>
               </div>
             </div>
 
