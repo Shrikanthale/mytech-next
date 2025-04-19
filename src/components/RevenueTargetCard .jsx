@@ -5,16 +5,23 @@ import {
   CircularProgressbarWithChildren,
   buildStyles,
 } from "react-circular-progressbar";
+import Image from "next/image";
 import "react-circular-progressbar/dist/styles.css";
 import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight } from "lucide-react";
-
+import threedots from "../assets/dashboardimgs/threedots.svg"
 const RevenueTargetCard = () => {
   const percentage = 75.55;
 
   return (
-    <div className="max-w-xs w-full p-4 rounded-2xl shadow-md bg-white">
-      <div className="text-sm font-medium text-gray-700">Target</div>
-      <div className="text-xs text-gray-400 mb-4">Revenue Target</div>
+    <div className="max-w-xs w-full p-6 rounded-2xl shadow-md bg-white">
+      <div className="flex justify-between" >
+        <div>
+
+          <div className="text-sm font-medium text-gray-700">Target</div>
+          <div className="text-xs text-gray-400 mb-4">Revenue Target</div>
+        </div>
+        <Image src={threedots} alt="" height={"auto"} width={"auto"} />
+      </div>
 
       <div className="w-60 h-40 mx-auto mb-2">
         <CircularProgressbarWithChildren
