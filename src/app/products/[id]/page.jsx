@@ -295,18 +295,14 @@ export default function EditProduct({ params }) {
 
             {/* Pricing */}
             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-medium text-gray-800 mb-4">
-                Pricing
-              </h2>
+              <h2 className="text-lg font-medium text-gray-800 mb-4">Pricing</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
+                <div className="col-span-1 md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Base Price
                   </label>
                   <div className="relative">
-                    <span className="absolute left-3 top-2 text-gray-500">
-                      $
-                    </span>
+                    <span className="absolute left-3 top-2 text-gray-500">$</span>
                     <input
                       type="text"
                       name="price"
@@ -316,6 +312,7 @@ export default function EditProduct({ params }) {
                     />
                   </div>
                 </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Discount Type
@@ -347,7 +344,7 @@ export default function EditProduct({ params }) {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 ">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     VAT Amount (%)
                   </label>
                   <input
@@ -358,6 +355,7 @@ export default function EditProduct({ params }) {
                 </div>
               </div>
             </div>
+
 
             {/* Inventory */}
             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
