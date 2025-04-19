@@ -524,47 +524,42 @@ export default function EditProduct({ params }) {
           </div>
 
           <div className="lg:col-span-1">
-            {/* Category */}
-            <div className="bg-white rounded-md shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-medium text-gray-800 mb-4">
-                Category
-              </h2>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Product Category
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
-                >
-                  <option>Watch</option>
-                  <option>Electronics</option>
-                  <option>Accessories</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Product Tags
-                </label>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 text-gray-500 bg-gray-100"
-                    placeholder="Add tags"
-                  />
-                </div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md">
-                    Watch <button className="ml-1 text-blue-700">×</button>
-                  </span>
-                  <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md">
-                    Gadget <button className="ml-1 text-blue-700">×</button>
-                  </span>
-                </div>
-              </div>
-            </div>
+          {/* Category */}
+{/* Category */}
+<div className="bg-white rounded-md shadow-sm p-6 mb-6">
+  <h2 className="text-lg font-medium text-gray-800 mb-4">Category</h2>
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Product Category
+    </label>
+    <select
+      name="category"
+      value={formData.category}
+      onChange={handleInputChange}
+      className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+    >
+      <option>Watch</option>
+      <option>Electronics</option>
+      <option>Accessories</option>
+    </select>
+  </div>
+  <div className="mb-4">
+    <label className="block text-sm font-medium text-gray-700 mb-1">
+      Product Tags
+    </label>
+    <div className="flex items-center border border-gray-300 rounded-md bg-gray-100 p-1.5 gap-2 py-2 flex-wrap">
+      <div className="flex flex-wrap gap-2">
+        <span className="inline-flex items-center px-2 py-1 bg-[#EAF8FF] text-[#2086BF] text-xs rounded-md">
+          Watch <button className="ml-2 text-#2086BF ">×</button>
+        </span>
+        <span className="inline-flex items-center px-2 py-1 bg-[#EAF8FF] text-[#2086BF] text-xs rounded-md">
+          Gadget <button className="ml-2 text-#2086BF">×</button>
+        </span>
+      </div>
+    
+    </div>
+  </div>
+</div>
             {/* Status */}
             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
               <h2 className="text-lg font-medium text-gray-800 mb-4">Status</h2>
