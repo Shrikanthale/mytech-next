@@ -9,6 +9,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import arrowheader from "../../../assets/productimg/arrowheader.svg"
 import Successicon from "../../../assets/productimg/Successicon.svg"
 import trashbtnred from "../../../assets/productimg/trashbtnred.svg"
+import saveicon from "../../../assets/productimg/saveicon.svg"
 import {
   FaSave,
   FaTimes,
@@ -212,7 +213,7 @@ export default function EditProduct({ params }) {
               <span>Cancel</span>
             </button>
             <button className="px-4 py-2 bg-[#2086BF] text-white rounded-md flex items-center gap-1">
-              <FaSave className="text-white" />
+              <Image src={saveicon} alt="" height={"auto"} width={"auto"} />
               <span>Save Product</span>
             </button>
           </div>
