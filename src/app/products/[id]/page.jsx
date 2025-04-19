@@ -8,6 +8,7 @@ import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
 import arrowheader from "../../../assets/productimg/arrowheader.svg"
 import Successicon from "../../../assets/productimg/Successicon.svg"
+import trashbtnred from "../../../assets/productimg/trashbtnred.svg"
 import {
   FaSave,
   FaTimes,
@@ -407,42 +408,48 @@ export default function EditProduct({ params }) {
               <h2 className="text-lg font-medium text-gray-800 mb-4">
                 Variation
               </h2>
-              {formData.variations.map((variation, index) => (
-                <div key={index} className="grid grid-cols-2 gap-4 mb-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Variation Type
-                    </label>
-                    <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100">
-                      <option>Color</option>
-                      <option>Size</option>
-                      <option>Material</option>
-                    </select>
+              <div className="py-1">
+                {formData.variations.map((variation, index) => (
+                  <div key={index} className="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Variation Type
+                      </label>
+                      <select
+                        className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                        value={variation.type}
+                        onChange={(e) => updateVariation(index, 'type', e.target.value)}
+                      >
+                        <option value="Color">Color</option>
+                        <option value="Size">Size</option>
+                        <option value="Material">Material</option>
+                      </select>
+                    </div>
+                    <div className="relative">
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Variation
+                      </label>
+                      <div className="flex items-center">
+                        <input
+                          type="text"
+                          value={variation.value}
+                          onChange={(e) => updateVariation(index, 'value', e.target.value)}
+                          className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                        />
+                        <div className="ml-2 cursor-pointer">
+                          <Image src={trashbtnred} alt="" height={"auto"} width={"auto"} onClick={() => removeVariation(index)} />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="relative">
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Variation
-                    </label>
-                    <input
-                      type="text"
-                      value={variation.value}
-                      className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
-                    />
-                    <button
-                      onClick={() => removeVariation(index)}
-                      className="absolute right-2 top-8 text-red-500"
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                ))}
               <button
                 onClick={addVariation}
-                className="flex items-center text-blue-500 text-sm mt-2"
+                className="flex items-center text-[#2086BF] text-sm mt-2 hover:bg-blue-100 bg-[#EAF8FF] p-2 rounded-sm cursor-pointer"
               >
                 <FaPlus className="mr-1" /> Add Variant
               </button>
+              </div>
             </div>
 
             {/* Shipping */}
