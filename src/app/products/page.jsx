@@ -7,7 +7,6 @@ import {
   Download,
   Edit2,
   Trash2,
-  MoreHorizontal,
   ChevronLeft,
   ChevronRight,
   Menu,
@@ -297,7 +296,7 @@ export default function Page() {
               >
                 <Menu size={20} />
               </button>
-              <div className="font-medium">{selectedTab}</div>
+              <div className="font-semibold text-gray-600">{selectedTab}</div>
               <div className="w-5"></div> {/* Empty space for alignment */}
             </div>
             {mobileMenuOpen && (
@@ -335,31 +334,28 @@ export default function Page() {
           <div className="p-2 md:p-0 sm:p-2">
             {/* Search and Filters - Mobile */}
             <div className="md:hidden mb-4">
-              <div className="relative mb-3">
-                <Search
-                  size={16}
-                  className="absolute left-3 top-2.5 text-gray-400"
-                />
+            <div className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 mb-3">
+                <Search className="text-gray-400 w-4 h-4 mr-1.5" />
                 <input
                   type="text"
                   placeholder="Search product..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 border rounded-md w-full text-sm"
+                  className="text-sm text-gray-500 outline-none bg-transparent w-32"
                 />
               </div>
               <div className="flex justify-between">
-                <button
-                  onClick={toggleMobileFilters}
-                  className="flex items-center px-3 py-1.5 text-xs border rounded-md"
-                >
-                  <Filter size={14} className="mr-1" />
-                  Filters
-                </button>
-                <button className="flex items-center px-3 py-1.5 text-xs border rounded-md">
-                  <Edit2 size={14} className="mr-1" />
-                  Edit Column
-                </button>
+                  {/* Date selector */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500">
+                <Calendar className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Select Date</span>
+              </button>
+
+              {/* Filters */}
+              <button className="flex items-center rounded-md border border-gray-200 px-2 py-1.5 text-gray-500 cursor-pointer">
+                <SlidersHorizontal className="text-gray-400 w-4 h-4 mr-1.5" />
+                <span className="text-sm">Filters</span>
+              </button>
               </div>
 
               {showMobileFilters && (
@@ -517,7 +513,7 @@ export default function Page() {
                           checked={selectedProducts.includes(product.id)}
                           onChange={() => handleSelectProduct(product.id)}
                         />
-                        <span className="font-medium text-sm">
+                        <span className="font-xl text-gray-600 text-sm ">
                           {product.name}
                         </span>
                       </div>
@@ -541,7 +537,7 @@ export default function Page() {
                           <div className="text-xs text-gray-500 mb-1">
                             {product.variations ? product.variations.length : 0} variants
                           </div>
-                          <div className="text-sm font-medium mb-1">
+                          <div className="text-sm text-grey-700 font-medium mb-1">
                             {product.price}
                           </div>
                           <div className="text-xs text-[#2086BF]">
@@ -576,7 +572,7 @@ export default function Page() {
                           <Trash2 size={16} />
                         </button>
                         <button className="p-1.5 text-gray-400 hover:text-gray-600">
-                          <MoreHorizontal size={16} />
+                        <Image src={eyeball} alt="img" height={"auto"} width={"auto"} />
                         </button>
                       </div>
                     </div>
