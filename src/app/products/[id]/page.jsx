@@ -190,34 +190,33 @@ export default function EditProduct({ params }) {
   return (
     <div className="bg-gray-50 min-h-screen">
       <div className=" mx-auto p-4">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-800">
-              Edit Product
-            </h1>
-            <div className="text-sm text-gray-500 flex items-center">
-              <Link href="/dashboard" className="text-[#2086BF] hover:text-blue-500">
-                Dashboard
-              </Link>
-              <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
-              <Link href="/products" className="text-[#2086BF] hover:text-blue-500">
-                Product List
-              </Link>
-              <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
-              <span>Edit Product</span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 flex items-center gap-1">
-              <FaTimes className="text-gray-500" />
-              <span>Cancel</span>
-            </button>
-            <button className="px-4 py-2 bg-[#2086BF] text-white rounded-md flex items-center gap-1">
-              <FaSave className="text-white" />
-              <span>Save Product</span>
-            </button>
-          </div>
-        </div>
+      <div className="flex justify-between items-center mb-6 flex-col md:flex-row">
+  <div>
+    <h1 className="text-2xl font-semibold text-gray-800">Edit Product</h1>
+    <div className="text-sm text-gray-500 flex items-center flex-wrap">
+      <Link href="/dashboard" className="text-[#2086BF] hover:text-blue-500">
+        Dashboard
+      </Link>
+      <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
+      <Link href="/products" className="text-[#2086BF] hover:text-blue-500">
+        Product List
+      </Link>
+      <span className="mx-2"><Image src={arrowheader} alt="" height={"auto"} width={"auto"} /></span>
+      <span>Edit Product</span>
+    </div>
+  </div>
+  <div className="flex items-center gap-2 mt-4 md:mt-0">
+    <button className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 flex items-center gap-1">
+      <FaTimes className="text-gray-500" />
+      <span>Cancel</span>
+    </button>
+    <button className="px-4 py-2 bg-[#2086BF] text-white rounded-md flex items-center gap-1">
+      <FaSave className="text-white" />
+      <span>Save Product</span>
+    </button>
+  </div>
+</div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2">
@@ -236,7 +235,7 @@ export default function EditProduct({ params }) {
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                 />
               </div>
 
@@ -244,7 +243,7 @@ export default function EditProduct({ params }) {
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Description
                 </label>
-                <div className="border border-gray-300 rounded-md overflow-hidden text-gray-500">
+                <div className="border border-gray-300 rounded-md overflow-hidden text-gray-500 bg-gray-100">
                   <MenuBar editor={editor} />
                   <EditorContent editor={editor} className="p-2 min-h-32" />
                 </div>
@@ -313,7 +312,7 @@ export default function EditProduct({ params }) {
                       name="price"
                       value={formData.price}
                       onChange={handleInputChange}
-                      className="w-full p-2 pl-6 border border-gray-300 rounded-md text-gray-500"
+                      className="w-full p-2 pl-6 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                     />
                   </div>
                 </div>
@@ -321,7 +320,7 @@ export default function EditProduct({ params }) {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Discount Type
                   </label>
-                  <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500">
+                  <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100">
                     <option>No Discount</option>
                     <option>Percentage</option>
                     <option>Fixed Amount</option>
@@ -333,7 +332,7 @@ export default function EditProduct({ params }) {
                   </label>
                   <input
                     type="text"
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                     placeholder="0%"
                   />
                 </div>
@@ -341,7 +340,7 @@ export default function EditProduct({ params }) {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Tax Class
                   </label>
-                  <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500">
+                  <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100">
                     <option>Tax Free</option>
                     <option>Standard Rate</option>
                     <option>Reduced Rate</option>
@@ -353,7 +352,7 @@ export default function EditProduct({ params }) {
                   </label>
                   <input
                     type="text"
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                     placeholder="0%"
                   />
                 </div>
@@ -375,7 +374,7 @@ export default function EditProduct({ params }) {
                     name="sku"
                     value={formData.sku}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                 </div>
                 <div>
@@ -387,7 +386,7 @@ export default function EditProduct({ params }) {
                     name="barcode"
                     value={formData.barcode}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                 </div>
                 <div>
@@ -399,7 +398,7 @@ export default function EditProduct({ params }) {
                     name="quantity"
                     value={formData.quantity}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                 </div>
               </div>
@@ -416,7 +415,7 @@ export default function EditProduct({ params }) {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Variation Type
                     </label>
-                    <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500">
+                    <select className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100">
                       <option>Color</option>
                       <option>Size</option>
                       <option>Material</option>
@@ -429,7 +428,7 @@ export default function EditProduct({ params }) {
                     <input
                       type="text"
                       value={variation.value}
-                      className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                      className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                     />
                     <button
                       onClick={() => removeVariation(index)}
@@ -475,7 +474,7 @@ export default function EditProduct({ params }) {
                     name="weight"
                     value={formData.weight}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                   <span className="text-xs text-gray-500">kg</span>
                 </div>
@@ -488,7 +487,7 @@ export default function EditProduct({ params }) {
                     name="height"
                     value={formData.height}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                   <span className="text-xs text-gray-500">cm</span>
                 </div>
@@ -501,7 +500,7 @@ export default function EditProduct({ params }) {
                     name="length"
                     value={formData.length}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                   <span className="text-xs text-gray-500">cm</span>
                 </div>
@@ -514,7 +513,7 @@ export default function EditProduct({ params }) {
                     name="width"
                     value={formData.width}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                   />
                   <span className="text-xs text-gray-500">cm</span>
                 </div>
@@ -523,6 +522,47 @@ export default function EditProduct({ params }) {
           </div>
 
           <div className="lg:col-span-1">
+             {/* Category */}
+             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
+              <h2 className="text-lg font-medium text-gray-800 mb-4">
+                Category
+              </h2>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Product Category
+                </label>
+                <select
+                  name="category"
+                  value={formData.category}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                >
+                  <option>Watch</option>
+                  <option>Electronics</option>
+                  <option>Accessories</option>
+                </select>
+              </div>
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Product Tags
+                </label>
+                <div className="flex items-center">
+                  <input
+                    type="text"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 text-gray-500 bg-gray-100"
+                    placeholder="Add tags"
+                  />
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md">
+                    Watch <button className="ml-1 text-blue-700">×</button>
+                  </span>
+                  <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md">
+                    Gadget <button className="ml-1 text-blue-700">×</button>
+                  </span>
+                </div>
+              </div>
+            </div>
             {/* Status */}
             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
               <h2 className="text-lg font-medium text-gray-800 mb-4">Status</h2>
@@ -539,54 +579,12 @@ export default function EditProduct({ params }) {
                   name="status"
                   value={formData.status}
                   onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
+                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
                 >
                   <option>Published</option>
                   <option>Draft</option>
                   <option>Archived</option>
                 </select>
-              </div>
-            </div>
-
-            {/* Category */}
-            <div className="bg-white rounded-md shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-medium text-gray-800 mb-4">
-                Category
-              </h2>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Product Category
-                </label>
-                <select
-                  name="category"
-                  value={formData.category}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md text-gray-500"
-                >
-                  <option>Watch</option>
-                  <option>Electronics</option>
-                  <option>Accessories</option>
-                </select>
-              </div>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Product Tags
-                </label>
-                <div className="flex items-center">
-                  <input
-                    type="text"
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 text-gray-500"
-                    placeholder="Add tags"
-                  />
-                </div>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md">
-                    Watch <button className="ml-1 text-blue-700">×</button>
-                  </span>
-                  <span className="inline-flex items-center px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md">
-                    Gadget <button className="ml-1 text-blue-700">×</button>
-                  </span>
-                </div>
               </div>
             </div>
           </div>
