@@ -219,8 +219,8 @@ export default function EditProduct({ params }) {
         </div>
 
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] gap-6">
+          <div className="lg:col-span-1">
             {/* General Information */}
             <div className="bg-white rounded-md shadow-sm p-6 mb-6">
               <h2 className="text-lg font-medium text-gray-800 mb-4">
@@ -443,12 +443,12 @@ export default function EditProduct({ params }) {
                     </div>
                   </div>
                 ))}
-              <button
-                onClick={addVariation}
-                className="flex items-center text-[#2086BF] text-sm mt-2 hover:bg-blue-100 bg-[#EAF8FF] p-2 rounded-sm cursor-pointer"
-              >
-                <FaPlus className="mr-1" /> Add Variant
-              </button>
+                <button
+                  onClick={addVariation}
+                  className="flex items-center text-[#2086BF] text-sm mt-2 hover:bg-blue-100 bg-[#EAF8FF] p-2 rounded-sm cursor-pointer"
+                >
+                  <FaPlus className="mr-1" /> Add Variant
+                </button>
               </div>
             </div>
 
@@ -458,16 +458,16 @@ export default function EditProduct({ params }) {
                 Shipping
               </h2>
               <div className="mb-4">
-               <label className="flex items-center">
-  <input
-    type="checkbox"
-    checked
-    className="form-checkbox h-4 w-4 accent-[#2086BF]"
-  />
-  <span className="ml-2 text-sm text-[#2086BF]">
-    This is a physical product
-  </span>
-</label>
+                <label className="flex items-center">
+                  <input
+                    type="checkbox"
+                    checked
+                    className="form-checkbox h-4 w-4 accent-[#2086BF]"
+                  />
+                  <span className="ml-2 text-sm text-[#2086BF]">
+                    This is a physical product
+                  </span>
+                </label>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
