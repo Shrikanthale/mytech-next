@@ -220,7 +220,7 @@ export default function Page() {
               <span className="text-gray-800">Product List</span>
             </div>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center hidden sm:inline ">
             <div className="flex gap-4">
               <button className="flex items-center gap-2 py-3 px-4 rounded-lg bg-blue-50 text-[#2086BF] hover:bg-blue-100 transition-colors cursor-pointer">
                 <Image src={exporticon} alt="" width={"auto"} height={"auto"} />
