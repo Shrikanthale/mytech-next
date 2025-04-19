@@ -458,16 +458,16 @@ export default function EditProduct({ params }) {
                 Shipping
               </h2>
               <div className="mb-4">
-                <label className="flex items-center">
-                  <input
-                    type="checkbox"
-                    checked
-                    className="form-checkbox h-4 w-4 text-blue-500"
-                  />
-                  <span className="ml-2 text-sm text-gray-700">
-                    This is a physical product
-                  </span>
-                </label>
+               <label className="flex items-center">
+  <input
+    type="checkbox"
+    checked
+    className="form-checkbox h-4 w-4 accent-[#2086BF]"
+  />
+  <span className="ml-2 text-sm text-[#2086BF]">
+    This is a physical product
+  </span>
+</label>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
@@ -479,9 +479,8 @@ export default function EditProduct({ params }) {
                     name="weight"
                     value={formData.weight}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-800 bg-gray-100"
                   />
-                  <span className="text-xs text-gray-500">kg</span>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -492,9 +491,8 @@ export default function EditProduct({ params }) {
                     name="height"
                     value={formData.height}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-800 bg-gray-100"
                   />
-                  <span className="text-xs text-gray-500">cm</span>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -505,9 +503,8 @@ export default function EditProduct({ params }) {
                     name="length"
                     value={formData.length}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-800 bg-gray-100"
                   />
-                  <span className="text-xs text-gray-500">cm</span>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -518,9 +515,8 @@ export default function EditProduct({ params }) {
                     name="width"
                     value={formData.width}
                     onChange={handleInputChange}
-                    className="w-full p-2 border border-gray-300 rounded-md text-gray-500 bg-gray-100"
+                    className="w-full p-2 border border-gray-300 rounded-md text-gray-800 bg-gray-100"
                   />
-                  <span className="text-xs text-gray-500">cm</span>
                 </div>
               </div>
             </div>
